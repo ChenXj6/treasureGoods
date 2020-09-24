@@ -1,8 +1,5 @@
 <template>
   <div>
-      <div class="j-btm">
-           <router-view/>
-      </div>
     <div>
       <van-tabbar v-model="active">
         <van-tabbar-item name="index" @click="index" icon="home-o">{{$t('m.footer.publictab1')}}</van-tabbar-item>
@@ -21,8 +18,7 @@ export default {
   data() {
     return {
       active: this.$route.name,
-      // host:process.env.NODE_ENV=='development'?'http://5016.yesswl.top':`${location.protocol}//${location.host}`
-      host:'http://app.likeapp365.com'
+	    // host:process.env.NODE_ENV=='development'?'http://5016.yesswl.top':`${location.protocol}//${location.host}`
     };
   },
  watch: {

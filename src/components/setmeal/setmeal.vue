@@ -47,11 +47,18 @@
         <p style="color:#000;"><van-icon name="question" /> {{$t('m.Setmeal.meal8')}}</p>
       </div>
     </van-dialog>
+    <div style="width:100%;height:98px"></div>
+    <Foot></Foot>
   </div>
 </template>
 
 <script>
+import Foot from '@/components/index/footer'
+
 export default {
+  components:{
+    Foot
+  },
   data() {
     return {
       setmeallist: "",

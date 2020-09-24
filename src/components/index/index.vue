@@ -1,27 +1,38 @@
 <template>
   <div class="perback">
     <!-- 轮播 -->
-	<div><div class="van-nav-bar van-hairline--bottom" style="z-index: 1;"><div class="van-nav-bar__left"></div><div class="van-nav-bar__title van-ellipsis">{{$t('m.Homepage.home1')}}</div><div class="van-nav-bar__right"></div></div></div>
     <div>
-      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-        <van-swipe-item v-for="(item,index) in indexdata.advs" :key="index">
-          <img :src="item.thumb" alt srcset />
+      <div class="van-nav-bar van-hairline--bottom"
+           style="z-index: 1;">
+        <div class="van-nav-bar__left"></div>
+        <div class="van-nav-bar__title van-ellipsis">{{$t('m.Homepage.home1')}}</div>
+        <div class="van-nav-bar__right"></div>
+      </div>
+    </div>
+    <!-- 宣传栏 -->
+    <div>
+      <van-swipe class="my-swipe"
+                 :autoplay="3000"
+                 indicator-color="white">
+        <van-swipe-item v-for="(item,index) in indexdata.advs"
+                        :key="index">
+          <img :src="item.thumb"
+               alt
+               srcset />
         </van-swipe-item>
       </van-swipe>
     </div>
     <!-- 公告  -->
     <div class="noticesBox">
-      <van-notice-bar left-icon="volume-o" :scrollable="false" style="background: #171c2f !important; color:#fff; height: 1rem;">
-        <van-swipe
-          vertical
-          class="notice-swipe"
-          :autoplay="3000"
-          :show-indicators="false"
-         
-        >
-          <van-swipe-item
-            v-for="(item,index) in indexdata.notices"
-            :key="index">
+      <van-notice-bar left-icon="volume-o"
+                      :scrollable="false"
+                      style="background: #171c2f !important; color:#fff; height: 1rem;">
+        <van-swipe vertical
+                   class="notice-swipe"
+                   :autoplay="3000"
+                   :show-indicators="false">
+          <van-swipe-item v-for="(item,index) in indexdata.notices"
+                          :key="index">
             {{item.title}}
           </van-swipe-item>
         </van-swipe>
@@ -32,25 +43,29 @@
       <ul class="f-flex f-jc-sb plate4">
         <li @click="module(1)">
           <p>
-            <img src="../../assets/notice.png" alt />
+            <img src="../../assets/notice.png"
+                 alt />
           </p>
           <p>{{$t('m.Homepage.home2')}}</p>
         </li>
         <li @click="module(3)">
           <p>
-            <img src="../../assets/video.png" alt />
+            <img src="../../assets/video.png"
+                 alt />
           </p>
           <p>{{$t('m.Homepage.home16')}}</p>
         </li>
         <li @click="module(2)">
           <p>
-            <img src="../../assets/friends.png" alt />
+            <img src="../../assets/friends.png"
+                 alt />
           </p>
           <p>{{$t('m.Homepage.home3')}}</p>
         </li>
         <li @click="module(4)">
           <p>
-            <img src="../../assets/service.png" alt />
+            <img src="../../assets/service.png"
+                 alt />
           </p>
           <p>{{$t('m.Homepage.home5')}}</p>
         </li>
@@ -60,18 +75,28 @@
     <div class="taskp">
       <div class="van-notice-bar title">VIP Level</div>
       <div class="f-flex task">
-        <p @click="task(item.id)" v-for="(item,index) in tasklist_grade" :key="index">
-          <img src="../../assets/vip1.png" alt />{{item.title}}
+        <p @click="task(item.id)"
+           v-for="(item,index) in tasklist_grade"
+           :key="index">
+          <img src="../../assets/vip1.png"
+               alt />{{item.title}}
         </p>
       </div>
-	  
+
     </div>
     <!-- 列表 -->
     <div class="zylist p10">
-      <van-list v-model="loading" :finished="finished" :finished-text="$t('m.Homepage.home6')" :loading-text="$t('m.mission.mission21')" @load="onLoad">
-        <div class="f-flex zyitem box-shadow" v-for="(item,index) in tasklist" :key="index">
+      <van-list v-model="loading"
+                :finished="finished"
+                :finished-text="$t('m.Homepage.home6')"
+                :loading-text="$t('m.mission.mission21')"
+                @load="onLoad">
+        <div class="f-flex zyitem box-shadow"
+             v-for="(item,index) in tasklist"
+             :key="index">
           <div>
-            <img :src="item.type==0?dy:ks" alt />
+            <img :src="item.type==0?dy:ks"
+                 alt />
             <span>{{item.grade}}</span>
           </div>
           <div>
@@ -85,53 +110,65 @@
           <div>
             <p><i>INR</i> {{item.money}}</p>
             <p>
-              <el-button type="primary" @click="draw(item.id)">{{$t('m.Homepage.home11')}}</el-button>
+              <el-button type="primary"
+                         @click="draw(item.id)">{{$t('m.Homepage.home11')}}</el-button>
             </p>
           </div>
         </div>
       </van-list>
     </div>
-      <!-- 领取任务 -->
-    <van-dialog v-model="xinx" show-cancel-button @confirm="confirms" :confirmButtonText="$t('m.Personal.Center23')" :cancelButtonText="$t('m.Personal.Center24')">
+    <!-- 领取任务弹窗 -->
+    <van-dialog v-model="xinx"
+                show-cancel-button
+                @confirm="confirms"
+                :confirmButtonText="$t('m.Personal.Center23')"
+                :cancelButtonText="$t('m.Personal.Center24')">
       <div class="xinx">
-        <p class="renwu_color"><van-icon name="question" /> {{$t('m.Homepage.home12')}}</p>
+        <p class="renwu_color">
+          <van-icon name="question" /> {{$t('m.Homepage.home12')}}
+        </p>
       </div>
     </van-dialog>
-  </div> 
+    <div style="width:100%;height:98px"></div>
+    <Foot></Foot>
+  </div>
 </template>
 
 <script>
+  import Foot from '@/components/index/footer'
 export default {
-  data() {
+  data () {
     return {
       indexdata: "",
       images: [],
       tasklist: [],
-	    tasklist_grade:[],
+      tasklist_grade: [],
       page: 1,
       grade: "",
       loading: false,
       finished: false,
       money: "",
-      xinx:false,
-      id:'',
-      dy:require('../../assets/Tiktok.png'),
-      ks:require('../../assets/Zantine.png'),
+      xinx: false,
+      id: '',
+      dy: require('../../assets/Tiktok.png'),
+      ks: require('../../assets/Zantine.png'),
       // host:process.env.NODE_ENV=='development'?'http://7230.iiio.top':`${location.protocol}//${location.host}`
-      // host:'http://118.190.247.207',
-      host:'http://app.likeapp365.com',
+      host: 'http://app.likeapp365.com',
     };
   },
-  mounted() {
+  components:{
+    Foot
   },
-  created() {
+  mounted () {
+  },
+  created () {
     this.main();
     this.task_list();
-	  this.tasks_grade();
+    this.tasks_grade();
   },
   methods: {
     //四个板块
-    module(e) {
+    module (e) {
       if (e == 1) {
         this.$router.push({ name: "release" });
       }
@@ -139,41 +176,41 @@ export default {
         // this.$router.push({ name: "poster" });
         var language = window.localStorage.getItem('language');
         var lang;
-        if(language==""||language=="cn-CN"){
-            lang="cn"
-        }else{
-            lang="en"
+        if (language == "" || language == "cn-CN") {
+          lang = "cn"
+        } else {
+          lang = "en"
         }
-        location.href=`${this.host}/app/index.php?i=4&c=entry&method=shares&p=commission&m=sz_yi&do=plugin&lang=`+lang
+        location.href = `${this.host}/app/index.php?i=4&c=entry&method=shares&p=commission&m=sz_yi&do=plugin&lang=` + lang
       }
-      if(e==3){
+      if (e == 3) {
         this.$router.push({ name: "course" });
       }
-			if(e==4){
-				this.$api.Post("service").then(res => {
-				  if (res.status == 1) {
-				    location.href = res.result;
-				  }
-				});
-			}
+      if (e == 4) {
+        this.$api.Post("service").then(res => {
+          if (res.status == 1) {
+            location.href = res.result;
+          }
+        });
+      }
     },
     //任务
-    task(id) {
-		this.$router.push({name:'task',query:{'takeid':id}})
+    task (id) {
+      this.$router.push({ name: 'task', query: { 'takeid': id } })
       // this.page = 1;
       // this.grade = e;
       // this.finished = false;
       // this.task_list();
     },
-    main() {
+    main () {
       this.$api.Post("main").then(res => {
-    
+
         if (res.status == 1) {
           this.indexdata = res.result;
         }
       });
     },
-    task_list() {
+    task_list () {
       this.$api
         .Post("task_list", {
           type: "",
@@ -188,48 +225,48 @@ export default {
           }
         });
     },
-	
-	
-	tasks_grade(){
-		this.$api
-		  .Post("tasks_grade", {
-		    type: "",
-		    grade: this.grade,
-		    page: this.page,
-		    psize: 10
-		  })
-		  .then(res => {
-		    if (res.status == 1) {
-		      this.tasklist_grade = res.result.list;
-		      
-		    }
-		  });
-	},
+
+
+    tasks_grade () {
+      this.$api
+        .Post("tasks_grade", {
+          type: "",
+          grade: this.grade,
+          page: this.page,
+          psize: 10
+        })
+        .then(res => {
+          if (res.status == 1) {
+            this.tasklist_grade = res.result.list;
+
+          }
+        });
+    },
 
     //领取
-    draw(e){
-        this.id=e;
-        this.xinx=true;
+    draw (e) {
+      this.id = e;
+      this.xinx = true;
     },
     // 确定领取
-    confirms(){
-       this.$api.Post('receive_tasks',{
-          id:this.id,
-      }).then(res=>{
-        if(res.status==0){
-           this.$toast(res.result.message)
+    confirms () {
+      this.$api.Post('receive_tasks', {
+        id: this.id,
+      }).then(res => {
+        if (res.status == 0) {
+          this.$toast(res.result.message)
         }
-          if(res.status==1){
-            this.$toast(this.$t('m.Homepage.home15'))
-            setTimeout(()=>{
-               this.$router.go(0)
-            },500)
-            
-          }
+        if (res.status == 1) {
+          this.$toast(this.$t('m.Homepage.home15'))
+          setTimeout(() => {
+            this.$router.go(0)
+          }, 500)
+
+        }
       })
     },
 
-    onLoad() {
+    onLoad () {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       setTimeout(() => {
@@ -260,20 +297,20 @@ export default {
 </script>
 
 <style lang="less">
-	.perback{
-		background: #0f1427 !important;
-	}
-.task{
-	flex-wrap: wrap;
+.perback {
+  background: #0f1427 !important;
 }
-.task p{
-	width: 49%;
-	padding: 10px 0;
+.task {
+  flex-wrap: wrap;
+}
+.task p {
+  width: 49%;
+  padding: 10px 0;
   margin: 0.1rem 0.5% 0;
   background-color: #1e243d;
   border-radius: 0.16667rem;
 }
-.mt_do{
+.mt_do {
   // background: #fff;
   color: #fff;
   padding: 0.1rem !important;
@@ -285,7 +322,7 @@ export default {
   text-align: center;
   //   background-color: #39a9ed;
 }
-.my-swipe img{
+.my-swipe img {
   width: 100%;
 }
 .plate4 {
@@ -331,9 +368,9 @@ export default {
       top: 0;
       // background: #57a4f4;
       color: #1989fa;
-	    border-radius: 12px 0 0 0 !important;
+      border-radius: 12px 0 0 0 !important;
       padding: 5px 0 3px 10px;
-			font-size: 12px;
+      font-size: 12px;
       border-radius: 4px 0 0 0;
     }
   }
@@ -345,7 +382,6 @@ export default {
       color: #fff;
       padding: 3px 0px;
       border-radius: 20px;
-
     }
   }
   > div:nth-child(3) {
@@ -373,12 +409,12 @@ export default {
     margin-top: 20px;
   }
 }
-.el-button--primary{
+.el-button--primary {
 }
-.renwu_color{
+.renwu_color {
   color: #000;
 }
-.van-ellipsis>.notice-swipe{
+.van-ellipsis > .notice-swipe {
   width: 352px;
   height: 0.64rem;
 }

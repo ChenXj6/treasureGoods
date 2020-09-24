@@ -262,11 +262,18 @@
           </div>
         </div>
     </div>
+    <div style="width:100%;height:98px"></div>
+    <Foot></Foot>
   </div>
 </template>
 
 <script>
+  import Foot from '@/components/index/footer'
+
 export default {
+  components:{
+    Foot
+  },
   data() {
     return {
       user: "",
@@ -292,9 +299,7 @@ export default {
           i_url:require("../../assets/order.png")
       }],
       // host:process.env.NODE_ENV=='development'?'http://5114.chac.xyz/':`${location.protocol}//${location.host}`,
-      // host:'http://118.190.247.207',
       host:'http://app.likeapp365.com',
-
       outbox:false
     };
   },
@@ -391,7 +396,6 @@ export default {
     // 点击显示退出框
     displayout(){
       this.outbox = true;
-      console.log(this.outbox)
     },
     // 点击隐藏退出框
     hideout(){

@@ -38,6 +38,7 @@
         <el-button type="primary" @click="reister">{{$t('m.registerpage.register10')}}</el-button>
       </p>
       <div class="golog"><span @click="gologin">{{$t('m.registerpage.register11')}}</span></div>
+      <div class="golog"><span><a :href="loginUrl" style="color:#5d70bd">{{$t('m.loginpage.login11')}}</a></span></div>
      <p>
        <a href="https://fenfa666.com/s/6416">{{$t('m.registerpage.register12')}}</a> 
      </p>
@@ -58,7 +59,8 @@ export default {
               incode:this.GetUrlParam('incode')
           },
           iscode:false,
-          logoimg:''
+          logoimg:'',
+          loginUrl:''
         }
     },
     mounted(){
@@ -68,6 +70,7 @@ export default {
        logo(){
         this.$api.Post('logo').then(res=>{
            this.logoimg=res.result.logo
+           this.loginUrl = res.result.loginurl
         })
       },
       gologin(){

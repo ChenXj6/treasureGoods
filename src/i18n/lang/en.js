@@ -12,7 +12,8 @@ export const m = {
           login7:'Download the APP',
           login8:'Please enter your phone number',
           login9:'Please enter your password',
-          login10:'Login successful'
+          login10:'Login successful',
+          login11:'Whatsapp customer service'
       },
     // 注册
       registerpage:{
@@ -206,8 +207,10 @@ export const m = {
           withdrawal3:'Cash it all out',
           withdrawal4:'Cash withdrawal',
           withdrawal5:'Method of withdrawal',
-          withdrawal6:'To the ATM card',
-          withdrawal7:'Please enter your name',
+          withdrawal6:'To the Paypal',
+          withdrawal25:'To the Atm card',
+          withdrawal7:'Please enter your Email or user',
+          withdrawal26:'Please enter your user',
           withdrawal8:'Name',
           withdrawal9:'Please enter your cell phone number',
           withdrawal10:'Cell phone number',

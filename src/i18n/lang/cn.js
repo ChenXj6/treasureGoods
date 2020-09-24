@@ -12,7 +12,8 @@ export const m = {
         login7:'下载APP  >',
         login8:'请输入手机号',
         login9:'请输入密码',
-        login10:'登录成功'
+        login10:'登录成功',
+        login11:'WhatsApp客服',
     },
   // 注册
     registerpage:{
@@ -207,8 +208,10 @@ export const m = {
         withdrawal3:'全部提现',
         withdrawal4:'提现金额',
         withdrawal5:'提现方式',
-        withdrawal6:'提现到银行卡',
-        withdrawal7:'请输入姓名',
+        withdrawal6:'提现到paypal',
+        withdrawal25:'提现到银行卡',
+        withdrawal7:'请输入邮箱或者姓名',
+        withdrawal26:'请输入姓名',
         withdrawal8:'姓名',
         withdrawal9:'请输入手机号码',
         withdrawal10:'手机号码',

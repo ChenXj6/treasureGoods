@@ -43,10 +43,13 @@
       </div>
       </van-list>
     </div>
+    <div style="width:100%;height:98px"></div>
+    <Foot></Foot>
   </div>
 </template>
 
 <script>
+import Foot from '@/components/index/footer'
 export default {
   data() {
     return {
@@ -59,6 +62,9 @@ export default {
       ks:require('../../assets/Zantine.png'),
       grade:this.$route.query.grade
     };
+  },
+  components:{
+    Foot
   },
   mounted(){
    this.my_task_list()
@@ -116,7 +122,6 @@ export default {
          status:this.type,
          grade:grader
        }).then(res=>{
-         console.log(res.result.list)
          if(res.status==1){
            this.tasklist=res.result.list;
          }

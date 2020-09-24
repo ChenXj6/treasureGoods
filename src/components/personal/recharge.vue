@@ -38,8 +38,7 @@ return {
 	columns: [],
 	op:[],
 	showPicker: false,
-	// host:process.env.NODE_ENV=='development'?'http://5016.yesswl.top':`${location.protocol}//${location.host}`,
-  host:'http://app.likeapp365.com',
+	host:process.env.NODE_ENV=='development'?'http://5016.yesswl.top':`${location.protocol}//${location.host}`
 	
 }
 },

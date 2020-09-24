@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import login from '../components/login/login.vue'
 import register from '../components/login/register.vue'
 import index from '../components/index/index.vue'
-import footer from '../components/index/footer.vue'
+// import footer from '../components/index/footer.vue'
 import course from '../components/index/course.vue'
 import release from '../components/index/release.vue'
 import detail from '../components/index/detail.vue'
@@ -31,13 +30,13 @@ import copys from '../components/personal/copys.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: Home
-  // },
   {
     path: '/',
+    name: 'index',
+    component: index
+  },
+  {
+    path: '/login',
     name: 'login',
     component: login
   },
@@ -47,29 +46,44 @@ const routes = [
     component: register
   },
   {
-	  path:'/orderlist',
-	  name:'orderlist',
-	  component:orderlist
+    path: '/orderlist',
+    name: 'orderlist',
+    component: orderlist,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/forget',
     name: 'forget',
-    component: forget
+    component: forget,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/weblogin',
     name: 'weblogin',
-    component: weblogin
+    component: weblogin,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/webindex',
     name: 'webindex',
-    component: webindex
+    component: webindex,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/recharge',
     name: 'recharge',
-    component: recharge
+    component: recharge,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/release',
@@ -130,7 +144,10 @@ const routes = [
   {
     path: '/course',
     name: 'course',
-    component: course
+    component: course,
+    meta: {
+      islg: true
+    },
   },
   {
     path: '/issuedetail',
@@ -140,15 +157,15 @@ const routes = [
       islg: true
     },
   },
-	{
-		path: '/copys',
-		name: 'copys',
-		component: copys,
-		meta: {
-		  islg: true
-		},
-		
-	},
+  {
+    path: '/copys',
+    name: 'copys',
+    component: copys,
+    meta: {
+      islg: true
+    },
+
+  },
   {
     path: '/withdraw',
     name: 'withdraw',
@@ -174,47 +191,28 @@ const routes = [
     },
   },
   {
-    path: '/footer',
-    name: 'footer',
-    component: footer,
-    redirect: 'index',
+    path: '/mytask',
+    name: 'mytask',
+    component: mytask,
     meta: {
       islg: true
     },
-    children: [
-      {
-        path: '/index',
-        name: 'index',
-        component: index,
-        meta: {
-          islg: true
-        },
-      }, 
-      {
-        path: '/mytask',
-        name: 'mytask',
-        component: mytask,
-        meta: {
-          islg: true
-        },
-      },
-      {
-        path: '/setmeal',
-        name: 'setmeal',
-        component: setmeal,
-        meta: {
-          islg: true
-        },
-      },
-      {
-        path: '/personal',
-        name: 'personal',
-        component: personal,
-        meta: {
-          islg: true
-        },
-      },
-    ]
+  },
+  {
+    path: '/setmeal',
+    name: 'setmeal',
+    component: setmeal,
+    meta: {
+      islg: true
+    },
+  },
+  {
+    path: '/personal',
+    name: 'personal',
+    component: personal,
+    meta: {
+      islg: true
+    },
   },
 
 

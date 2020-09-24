@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" >
    <router-view v-loading="LOADING" />
-   <!-- <van-loading /> -->
   </div>
 </template>
 <script>
@@ -34,8 +33,7 @@ created(){
 			window.addEventListener("beforeunload",()=>{
 				sessionStorage.setItem("store",JSON.stringify(this.$store.state))
 			})
-    },
-
+    },  
 }
 </script>
 

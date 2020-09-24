@@ -29,7 +29,6 @@ Vue.use(VueCookies)
 
 Vue.prototype.$cookieStore = {setCookie,getCookie,delCookie}
 
-// console.log(api)
 Vue.use(Dialog);
 Vue.use(VueClipboard)
 Vue.use(Vant);
@@ -57,27 +56,17 @@ function getCookie3(name){
       }
   }
  
-  Vue.prototype.getCookie3=getCookie3;
-
-// //  console.log(getCookie3('57da___wx_shop_member_session_96'))
-//  let islogin=getCookie3('57da___wx_shop_member_session_96') || false;
-// //  console.log(islogin)
-//  if(islogin==false){
-//    router.replace({name:'login'})
-//  }
+  Vue.prototype.getCookie3 = getCookie3;
   router.beforeEach((to, from, next) => {
-      // islogin=getCookie3('57da___wx_shop_member_session_96') || false;
-      // console.log(islogin)
-			
+      let islogin = getCookie3("openid") || false;
       if(to.meta.islg){
-				
-        next()
-        //  if(islogin==false){
-        //  Toast('请重新登录!')
-        //    next('/')
-        //  }else{
-        //    next()
-        //  }
+        // next()
+         if(islogin==false){
+         Toast('Please log in again!')
+         setTimeout(()=>next('/login'),1000)
+         }else{
+           next()
+         }
       }else{
         next()
       }

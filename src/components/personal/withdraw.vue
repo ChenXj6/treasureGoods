@@ -27,17 +27,18 @@
              <el-radio v-model="radio" label="1"></el-radio>
         </p> -->
       <p class="f-flex f-jc-sb">
-        <span><img src="../../assets/bank.png" alt="" />{{$t('m.Balance.withdrawal6')}}</span>
+        <span v-if="amount.type == 4"><img src="../../assets/bank.png" alt="" />{{$t('m.Balance.withdrawal6')}}</span>
+        <span v-else><img src="../../assets/bank.png" alt="" />{{$t('m.Balance.withdrawal25')}}</span>
         <el-radio v-model="radio" label="2"></el-radio>
       </p>
       <p>
         <van-field
           v-model="amount.username"
-          :placeholder="$t('m.Balance.withdrawal7')"
+          :placeholder="amount.type == 4 ? $t('m.Balance.withdrawal7') : $t('m.Balance.withdrawal26')"
           :label="$t('m.Balance.withdrawal8')"
         />
       </p>
-      <p>
+      <p           v-if="amount.type == 3">
         <van-field
            maxlength="11"
           v-model="amount.tel"
@@ -45,21 +46,21 @@
           :label="$t('m.Balance.withdrawal10')"
         />
       </p>
-      <p>
+      <p           v-if="amount.type == 3">
         <van-field
           v-model="amount.bank_name"
           :placeholder="$t('m.Balance.withdrawal11')"
           :label="$t('m.Balance.withdrawal12')"
         />
       </p>
-      <p>
+      <p           v-if="amount.type == 3">
         <van-field
           v-model="amount.bank_card"
           :placeholder="$t('m.Balance.withdrawal13')"
           :label="$t('m.Balance.withdrawal14')"
         />
       </p>
-      <p>
+      <p           v-if="amount.type == 3">
         <van-field
           v-model="amount.bank_card1"
           :placeholder="$t('m.Balance.withdrawal15')"
@@ -68,7 +69,7 @@
       </p>
     </div>
     <div class="with-btn">
-      <el-button type="primary" @click="withdrae">{{$t('m.Balance.withdrawal17')}}</el-button>
+      <el-button type="primary" @click="withdrae(amount.type)">{{$t('m.Balance.withdrawal17')}}</el-button>
     </div>
   </div>
 </template>
@@ -85,56 +86,66 @@ export default {
         bank_card1: "",
         bank_name: "",
         tel: "",
-        withdraw_money: ""
-      }
+        withdraw_money: "",
+        type:0
+      },
     };
   },
   created () {
      let islog=localStorage.getItem('amount')||false;
-     console.log(islog)
      if(islog!=false){
        this.amount=JSON.parse(islog)
      }
+     this.logo()
   },
   methods: {
     onClickLeft() {
       this.$router.go(-1);
     },
+    logo(){
+      this.$api.Post('logo').then(res=>{
+        this.amount.type = res.result.type
+      })
+    },
     //提现
-    withdrae() {
-      var isMobile = /^1[3|4|5|6|7|8][0-9]{9}$/;
-      if (this.amount.withdraw_money == "") {
-        this.$toast(this.$t('m.Balance.withdrawal18'));
-        return;
-      }
+    withdrae(type) {
+      console.log(this.amount)
       if (this.amount.username == "") {
         this.$toast(this.$t('m.Balance.withdrawal19'));
         return;
       }
-      if (this.amount.tel == "") {
-        this.$toast(this.$t('m.Balance.withdrawal20'));
-        return;
-      }
-      if (!isMobile.test(this.amount.tel)) {
-        this.$toast(this.$t('m.Balance.withdrawal21'));
-        return;
-      }
-      if (this.amount.bank_name == "") {
-        this.$toast(this.$t('m.Balance.withdrawal22'));
-        return;
-      }
-      if (this.amount.bank_card == "") {
-        this.$toast(this.$t('m.Balance.withdrawal23'));
-        return;
-      }
-      if (this.amount.bank_card != this.amount.bank_card1) {
-        this.$toast(this.$t('m.Balance.withdrawal24'));
-        return;
+      if(type == 3){
+        var isMobile = /^1[3|4|5|6|7|8][0-9]{9}$/;
+        if (this.amount.withdraw_money == "") {
+          this.$toast(this.$t('m.Balance.withdrawal18'));
+          return;
+        }
+        if (this.amount.tel == "") {
+          this.$toast(this.$t('m.Balance.withdrawal20'));
+          return;
+        }
+        if (!isMobile.test(this.amount.tel)) {
+          this.$toast(this.$t('m.Balance.withdrawal21'));
+          return;
+        }
+        if (this.amount.bank_name == "") {
+          this.$toast(this.$t('m.Balance.withdrawal22'));
+          return;
+        }
+        if (this.amount.bank_card == "") {
+          this.$toast(this.$t('m.Balance.withdrawal23'));
+          return;
+        }
+        if (this.amount.bank_card != this.amount.bank_card1) {
+          this.$toast(this.$t('m.Balance.withdrawal24'));
+          return;
+        }
       }
       this.$api.Post("submit_withdraw", this.amount).then(res => {
         this.$toast(res.result.message);
         if (res.status == 1) {
           this.amount.withdraw_money='';
+          this.amount.type = 0;
           localStorage.setItem('amount',JSON.stringify(this.amount))
           this.$router.go(-1);
         }
