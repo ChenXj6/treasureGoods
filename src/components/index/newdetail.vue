@@ -5,9 +5,9 @@
     </div>
     <div class="p20">
       <div class="wdetail" >
-        <h2>{{newdetail.newtitle}}</h2>
-        <p class="wtime">{{newdetail.thistime}}</p>
-        <p class="wcontent" v-html="newdetail.content">
+        <h2>{{newdetail.title}}</h2>
+        <p class="wtime">{{newdetail.createtime*1 | formatDate}}</p>
+        <p class="wcontent" v-html="newdetail.detail">
         </p>
       </div>
     </div>
@@ -46,9 +46,9 @@ export default {
      this.$router.go(-1)
     },
     one_new(){
-        this.$api.Post('newdetail',{id:this.$route.query.id}).then(res=>{
+        this.$api.Post('one_new',{id:this.$route.query.id}).then(res=>{
             if(res.status==1){
-                this.newdetail=res.result.newdetail;
+                this.newdetail=res.result.new;
             }
         })
     }

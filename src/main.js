@@ -23,8 +23,13 @@ import 'video.js/dist/video-js.css'
 
 Vue.prototype.$video = Video
 
+
 Vue.config.productionTip = false
 Vue.prototype.$api=api
+
+Vue.prototype.$currency='';
+Vue.prototype.$numberUnit='';
+
 Vue.use(VueCookies)
 
 Vue.prototype.$cookieStore = {setCookie,getCookie,delCookie}
@@ -61,9 +66,9 @@ function getCookie3(name){
       let islogin = getCookie3("openid") || false;
       if(to.meta.islg){
         // next()
-         if(islogin==false){
-         Toast('Please log in again!')
-         setTimeout(()=>next('/login'),1000)
+        if(islogin == false){
+          Toast('Please log in again!')
+          setTimeout(()=>next('/login'),1000)
          }else{
            next()
          }

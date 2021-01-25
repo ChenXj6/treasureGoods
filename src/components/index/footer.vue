@@ -4,7 +4,7 @@
       <van-tabbar v-model="active">
         <van-tabbar-item name="index" @click="index" icon="home-o">{{$t('m.footer.publictab1')}}</van-tabbar-item>
         <van-tabbar-item name="mytask" @click="mytask" icon="sign">{{$t('m.footer.publictab2')}}</van-tabbar-item>
-        <van-tabbar-item name="setmeal" @click="setmeal" icon="apps-o">{{$t('m.footer.publictab3')}}</van-tabbar-item>
+        <!-- <van-tabbar-item name="setmeal" @click="setmeal" icon="apps-o">{{$t('m.footer.publictab3')}}</van-tabbar-item> -->
         <!-- <van-tabbar-item name="setting" icon="gift-o" @click="yydb">商城</van-tabbar-item> -->
         <van-tabbar-item name="personal" @click="personal" icon="manager-o">{{$t('m.footer.publictab4')}}</van-tabbar-item>
       </van-tabbar>
@@ -34,7 +34,7 @@ export default {
     },
     methods:{
         mytask(){
-			this.$router.push({ name: "mytask",query:{grade:1} });
+			this.$router.push({ name: "mytask"});
             // this.$router.push({name:'mytask'})
         },
         setmeal(){

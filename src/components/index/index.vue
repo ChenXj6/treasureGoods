@@ -72,7 +72,7 @@
       </ul>
     </div>
     <!-- 任务 -->
-    <div class="taskp">
+    <!-- <div class="taskp">
       <div class="van-notice-bar title">VIP Level</div>
       <div class="f-flex task">
         <p @click="task(item.id)"
@@ -83,7 +83,7 @@
         </p>
       </div>
 
-    </div>
+    </div> -->
     <!-- 列表 -->
     <div class="zylist p10">
       <van-list v-model="loading"
@@ -92,33 +92,22 @@
                 :loading-text="$t('m.mission.mission21')"
                 @load="onLoad">
         <div class="f-flex zyitem box-shadow"
-             v-for="(item,index) in tasklist"
+             v-for="(item,index) in tasklist" @click="newdetail(item.id)"
              :key="index">
           <div>
-            <img :src="item.type==0?dy:ks"
-                 alt />
-            <span>{{item.grade}}</span>
-          </div>
-          <div>
-            <p>
-              {{$t('m.Homepage.home7')}}：{{item.id}}
-              <span style="white-space: nowrap;">{{$t('m.Homepage.home8')}}:{{item.number}}</span>
-            </p>
-            <p>{{$t('m.Homepage.home16')}}：{{item.needs}}</p>
-            <p v-show="item.uid=='0'?false:true">{{$t('m.Homepage.home9')}}：{{item.mobile}}</p>
-          </div>
-          <div>
-            <p><i>INR</i> {{item.money}}</p>
-            <p>
-              <el-button type="primary"
-                         @click="draw(item.id)">{{$t('m.Homepage.home11')}}</el-button>
-            </p>
-          </div>
+            <!-- <img  src="../../assets/Tiktok.png" alt=""/> -->
+            <img  :src="item.thumb" :alt="item.newtitle"/>
+            
+        </div>
+        <div>
+          <p><span>{{item.newtitle}}</span></p>
+          <p><span>{{item.thistime}}</span></p>
+        </div>
         </div>
       </van-list>
     </div>
     <!-- 领取任务弹窗 -->
-    <van-dialog v-model="xinx"
+    <!-- <van-dialog v-model="xinx"
                 show-cancel-button
                 @confirm="confirms"
                 :confirmButtonText="$t('m.Personal.Center23')"
@@ -128,9 +117,16 @@
           <van-icon name="question" /> {{$t('m.Homepage.home12')}}
         </p>
       </div>
-    </van-dialog>
+    </van-dialog> -->
     <div style="width:100%;height:98px"></div>
     <Foot></Foot>
+    <!-- 首次进入展示框 -->
+    <div class="firstMesBox" v-if="$store.state.firstMes">
+      <h1>{{$t('m.firstMes.firstMesTitle')}}</h1>
+      <div class="firstMesCon" v-html="firstMessage.content">{{firstMessage.content}}</div>
+      <img class="firstMesBtn" src="../../assets/close.png" alt="" @click="$store.state.firstMes = false">
+      <img class="firstMesClose" src="../../assets/close2.png" alt="" @click="$store.state.firstMes = false">
+    </div>
   </div>
 </template>
 
@@ -153,7 +149,8 @@ export default {
       dy: require('../../assets/Tiktok.png'),
       ks: require('../../assets/Zantine.png'),
       // host:process.env.NODE_ENV=='development'?'http://7230.iiio.top':`${location.protocol}//${location.host}`
-      host: 'http://app.likeapp365.com',
+      host: 'https://app.treasure365.vip',
+      firstMessage:''
     };
   },
   components:{
@@ -163,25 +160,38 @@ export default {
   },
   created () {
     this.main();
-    this.task_list();
-    this.tasks_grade();
+    this.newset();
+    this.getFirstMes();
   },
   methods: {
+    // 获取首次进入
+    getFirstMes(){
+      this.$api.Post("firstMes").then(res => {
+        if (res.status == 1) {
+          this.firstMessage = res.result.result;
+        }
+      });
+    },
     //四个板块
     module (e) {
       if (e == 1) {
         this.$router.push({ name: "release" });
       }
       if (e == 2) {
-        // this.$router.push({ name: "poster" });
         var language = window.localStorage.getItem('language');
         var lang;
-        if (language == "" || language == "cn-CN") {
+        if (language == "" || language == "cn-CN" || language == 'cn') {
           lang = "cn"
         } else {
           lang = "en"
         }
-        location.href = `${this.host}/app/index.php?i=4&c=entry&method=shares&p=commission&m=sz_yi&do=plugin&lang=` + lang
+        let isLogin = this.getCookie3('openid') || false;
+        if(isLogin == false){
+          let lang = localStorage.getItem('language') == 'cn' ? '请登录！' : 'Please log in again!'
+          setTimeout(()=>this.$router.push({path:'/login'}),1000)
+         }else{
+           location.href = `${this.host}/app/index.php?i=4&c=entry&app=goods&method=shares&p=commission&m=sz_yi&do=plugin&lang=` + lang
+         }
       }
       if (e == 3) {
         this.$router.push({ name: "course" });
@@ -194,103 +204,49 @@ export default {
         });
       }
     },
-    //任务
-    task (id) {
-      this.$router.push({ name: 'task', query: { 'takeid': id } })
-      // this.page = 1;
-      // this.grade = e;
-      // this.finished = false;
-      // this.task_list();
+    // 新闻点击详情
+    newdetail(id){
+      this.$router.push({name:'detail',query:{id:id}})
     },
+    // 公告
     main () {
       this.$api.Post("main").then(res => {
-
         if (res.status == 1) {
           this.indexdata = res.result;
         }
       });
     },
-    task_list () {
+    // 获取列表
+    newset () {
       this.$api
-        .Post("task_list", {
-          type: "",
-          grade: this.grade,
+        .Post("newset", {
           page: this.page,
           psize: 10
         })
         .then(res => {
           if (res.status == 1) {
-            this.tasklist = res.result.list;
-            this.money = res.result.money;
+            this.tasklist = res.result.newset;
           }
         });
     },
-
-
-    tasks_grade () {
-      this.$api
-        .Post("tasks_grade", {
-          type: "",
-          grade: this.grade,
-          page: this.page,
-          psize: 10
-        })
-        .then(res => {
-          if (res.status == 1) {
-            this.tasklist_grade = res.result.list;
-
-          }
-        });
-    },
-
-    //领取
-    draw (e) {
-      this.id = e;
-      this.xinx = true;
-    },
-    // 确定领取
-    confirms () {
-      this.$api.Post('receive_tasks', {
-        id: this.id,
-      }).then(res => {
-        if (res.status == 0) {
-          this.$toast(res.result.message)
-        }
-        if (res.status == 1) {
-          this.$toast(this.$t('m.Homepage.home15'))
-          setTimeout(() => {
-            this.$router.go(0)
-          }, 500)
-
-        }
-      })
-    },
-
     onLoad () {
       // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      setTimeout(() => {
         this.page++;
-        this.$api
-          .Post("task_list", {
-            type: "",
-            grade: this.grade,
+        this.$api.Post("newset", {
             page: this.page,
             psize: 10
           })
           .then(res => {
             if (res.status == 1) {
-              this.tasklist = this.tasklist.concat(res.result.list);
-              this.money = res.result.money;
+              this.tasklist = this.tasklist.concat(res.result.newset);
               // 数据全部加载完成
-              if (res.result.list.length < 10) {
+              if (res.result.newset.length < 10) {
                 this.finished = true;
               }
             }
           });
         // 加载状态结束
         this.loading = false;
-      }, 1000);
     }
   }
 };
@@ -339,8 +295,6 @@ export default {
     }
   }
 }
-.taskp {
-}
 .task {
   > p {
     text-align: center;
@@ -359,9 +313,11 @@ export default {
   position: relative;
   line-height: 26px;
   margin-bottom: 10px;
+  height: 100px;
   background: #1e243d;
   > div:nth-child(1) {
-    width: 23%;
+    width: 20%;
+    margin-right: 10px;
     span {
       position: absolute;
       left: 0;
@@ -374,39 +330,37 @@ export default {
       border-radius: 4px 0 0 0;
     }
   }
-  > div:nth-child(2) {
-    width: 57%;
+  >div:nth-child(2){
+    width: 80%;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-size: 14px;
-    span {
-      // border: 1px solid #57a4f4;
-      color: #fff;
-      padding: 3px 0px;
-      border-radius: 20px;
+    >p:nth-child(1){
+      max-height: 80%;
+      line-height: 16px;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
     }
-  }
-  > div:nth-child(3) {
-    // flex:1;
-    white-space: nowrap;
-    padding-top: 5px;
-    > p {
-      color: #f90;
-      font-weight: 600;
-      font-size: 18px;
-      text-align: right;
-    }
-    i {
-      font-weight: normal;
-      font-style: normal;
-      font-size: 12px;
-    }
-    button {
-      padding: 6px 20px;
-      margin-top: 5px;
+    >p:nth-child(2){
+      max-height: 20%;
+      >span{
+        float: right;
+        color: #f0f0f0;
+      }
     }
   }
   img {
     width: 50px;
-    margin-top: 20px;
+    position: absolute;
+    top: 50%;
+    transform:translateY(-50%)
   }
 }
 .el-button--primary {
@@ -417,5 +371,51 @@ export default {
 .van-ellipsis > .notice-swipe {
   width: 352px;
   height: 0.64rem;
+}
+.firstMesBox{
+  width: 80%;
+  height: 450px;
+  // overflow: auto;
+  min-height: 60%;
+  position: fixed;
+  left: 10%;
+  top:10%;
+  background-image: url(../../assets/firstMesBk.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0 20px;
+}
+.firstMesBox>h1{
+  text-align: center;
+  margin: 10px 0;
+  height: 30px;
+}
+.firstMesBox>.firstMesCon{
+  height: 400px;
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+  ::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+  }
+.firstMesBox>.firstMesBtn{
+  display: block;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  left: 50%;
+  bottom: -100px;
+  transform: translate(-50%,-50%);
+}
+.firstMesBox>.firstMesClose{
+  position: absolute;
+  top:17px;
+  right: 10px;
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 </style>
